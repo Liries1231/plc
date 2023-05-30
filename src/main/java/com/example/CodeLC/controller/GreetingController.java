@@ -34,6 +34,7 @@ public class GreetingController {
         return "main";
     }
 
+
     @PostMapping()
     public String add(Model model, @RequestParam String text, @RequestParam String tag) {
         Message message = new Message(text, tag);
