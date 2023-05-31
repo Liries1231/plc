@@ -7,7 +7,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-    <form method="post" th:action="@{/}">
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+<div>
+    <form method="post" th:action="@{/main}">
         <input type="text" name="text" placeholder="Введите сообщение" />
         <input type="text" name="tag" placeholder="Тэг">
         <button type="submit">Добавить</button>
@@ -17,6 +22,7 @@
 <div>Список сообщений</div>
 <form method="post" th:action="@{/filter}">
     <input type="text" name="filter">
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
     <button type="submit">Найти</button>
 </form>
 <div th:each="message : ${messages}">
