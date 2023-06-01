@@ -34,7 +34,6 @@ public class Message {
         this.text = text;
         this.tag = tag;
     }
-
     public Integer getId() {
         return id;
     }

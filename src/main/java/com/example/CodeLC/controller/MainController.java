@@ -5,6 +5,8 @@ import com.example.CodeLC.domain.User;
 import com.example.CodeLC.repos.MessageRepository;
 import com.example.CodeLC.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -29,27 +31,38 @@ public class MainController {
 
 
     @GetMapping("/main")
-    public String main(Model model) {
-        Iterable<Message> messages = messageRepository.findAll();
+    public String main(@RequestParam(defaultValue = "0") int page, Model model) {
+        int pageSize = 3; // Размер страницы
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
+        Page<Message> messages = messageRepository.findAll(pageRequest);
 
         model.addAttribute("messages", messages);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", messages.getTotalPages());
+
         return "main";
     }
 
 
     @PostMapping("/main")
     public String add(@AuthenticationPrincipal User user,
-                      Model model, @RequestParam String text, @RequestParam String tag) {
+                      Model model, @RequestParam String text, @RequestParam String tag,
+                      @RequestParam(defaultValue = "0") int currentPage) {
         Message message = new Message(text, tag, user);
-
         messageRepository.save(message);
 
+        // Получение нового списка записей на текущей странице
+        int pageSize = 3;
+        PageRequest pageRequest = PageRequest.of(currentPage, pageSize);
+        Page<Message> messages = messageRepository.findAll(pageRequest);
 
-        Iterable<Message> messages = messageRepository.findAll();
         model.addAttribute("messages", messages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", messages.getTotalPages());
 
         return "main";
     }
+
 
 
     @PostMapping("filter")
@@ -71,13 +84,7 @@ public class MainController {
         return "redirect:/main";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") String id) {
-        int messId = Integer.parseInt(id);
-        messageRepository.deleteById(messId);
-        return "redirect:/main";
 
-    }
 
 
 

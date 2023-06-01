@@ -65,11 +65,17 @@
                 <button type="submit">Confirm</button>
             </form>
             <a th:href="@{/message/{id}(id=${message.id})}">Delete</a>
-
         </td>
     </tr>
     </tbody>
 </table>
+<div th:if="${totalPages > 1}">
+    <ul>
+        <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/main(page=${pageNumber})}" th:text="${pageNumber}"></a>
+        </li>
+    </ul>
+</div>
 
 <script>
     // Обработчик события для кнопки "Update"
