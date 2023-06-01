@@ -18,7 +18,6 @@ public class MainController {
 
     @Autowired
     private MessageRepository messageRepository;
-
     @GetMapping()
     public String greeting(
             Map<String, Object> model) {
