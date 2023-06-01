@@ -1,5 +1,7 @@
 package com.example.CodeLC.service;
 
+import com.example.CodeLC.domain.Message;
+import com.example.CodeLC.repos.MessageRepository;
 import com.example.CodeLC.repos.UserRepos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,9 +15,19 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepos userRepos;
 
+
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepos.findByUsername(username);
     }
+
+
+
+
+
+
+
 
 }

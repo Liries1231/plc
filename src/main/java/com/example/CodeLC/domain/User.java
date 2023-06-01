@@ -74,6 +74,7 @@ public class User implements UserDetails {
         return active;
     }
 
+
     public void setActive(boolean active) {
         this.active = active;
     }

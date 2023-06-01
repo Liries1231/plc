@@ -21,6 +21,7 @@ public class Message {
         return author != null ? author.getUsername() : "<none>";
     }
 
+
     public void setAuthor(User author) {
         this.author = author;
     }
