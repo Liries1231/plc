@@ -1,5 +1,12 @@
 package com.example.CodeLC.domain;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
     AUTHOR;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

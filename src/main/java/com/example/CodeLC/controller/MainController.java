@@ -1,8 +1,10 @@
 package com.example.CodeLC.controller;
 
 import com.example.CodeLC.domain.Message;
+import com.example.CodeLC.domain.User;
 import com.example.CodeLC.repos.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +35,10 @@ public class MainController {
 
 
     @PostMapping("/main")
-    public String add(Model model, @RequestParam String text, @RequestParam String tag) {
-        Message message = new Message(text, tag);
+    public String add(@AuthenticationPrincipal User user,
+                      Model model, @RequestParam String text, @RequestParam String tag) {
+        Message message = new Message(text, tag, user);
+
         messageRepository.save(message);
 
 
